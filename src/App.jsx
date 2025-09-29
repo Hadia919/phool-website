@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function App() {
+  // Splash screen control — add this near the top with your other useState calls
+const [showSplash, setShowSplash] = useState(true);
+useEffect(() => {
+  const t = setTimeout(() => setShowSplash(false), 3000); // 3000 ms = 3 seconds
+  return () => clearTimeout(t);
+}, []);
   // --- 20 images exactly as you listed ---
   const collections = [
     { title: "black", img: "/phool-images/black.jpg", price: "Rs 3,000" },
@@ -82,6 +88,34 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+      {/* Splash screen overlay (put this right after the main opening <div>) */}
+<AnimatePresence>
+  {showSplash && (
+    <motion.div
+      className="fixed inset-0 flex items-center justify-center bg-pink-700 z-50"
+    
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+      onClick={() => setShowSplash(false)} // click to skip if user wants
+    >
+      <motion.video
+        src="/phool-images/logo.mp4"
+        poster="/phool-images/logo.png"   // optional fallback image (see note)
+        autoPlay
+        muted
+        playsInline
+        onEnded={() => setShowSplash(false)}
+        className="w-[220] md:w-[400px] lg:w-[500px] h-auto"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+
       {/* Header */}
       <header className="bg-white/80 backdrop-blur sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -104,7 +138,7 @@ export default function App() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900"
           >
-            Phool 🌸 <br /> Wear Nature, Wear Elegance.
+            Phool  <br /> Wear Nature, Wear Elegance.
           </motion.h1>
           <p className="mt-6 text-gray-600 max-w-lg">
             Handcrafted clothing inspired by nature — sustainable, elegant, and ethically made.
@@ -245,3 +279,6 @@ export default function App() {
     </div>
   );
 }
+
+
+

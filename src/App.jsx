@@ -3,12 +3,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function App() {
-  // Splash screen control — add this near the top with your other useState calls
+  // --- Splash screen with unmute option ---
 const [showSplash, setShowSplash] = useState(true);
+const [muted, setMuted] = useState(true);
+const videoRef = useRef(null);
+
 useEffect(() => {
-  const t = setTimeout(() => setShowSplash(false), 3000); // 3000 ms = 3 seconds
+  const t = setTimeout(() => setShowSplash(false), 10000); // 10 seconds total
   return () => clearTimeout(t);
 }, []);
+
   // --- 20 images exactly as you listed ---
   const collections = [
     { title: "black", img: "/phool-images/black.jpg", price: "Rs 3,000" },
@@ -89,50 +93,49 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
       {/* Splash screen overlay (put this right after the main opening <div>) */}
+{/* --- SPLASH SCREEN WITH SOUND CONTROL --- */}
 <AnimatePresence>
   {showSplash && (
     <motion.div
-      className="fixed inset-0 flex items-center justify-center bg-pink-700 z-50"
+      className="fixed inset-0 flex flex-col items-center justify-center bg-pink-700 z-50"
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 1.2 }}
     >
-      {/* The video */}
       <motion.video
-        id="phoolLogoVideo"
+        ref={videoRef}
         src="/phool-images/logo.mp4"
         poster="/phool-images/logo.png"
         autoPlay
-        muted
+        muted={muted}
         playsInline
-        onEnded={() => setShowSplash(false)}
-        className="w-[240px] md:w-[420px] lg:w-[500px] h-auto rounded-xl shadow-2xl"
-        initial={{ scale: 0.9, opacity: 0 }}
+        onEnded={() => {
+          // Wait 1s before fade-out
+          setTimeout(() => setShowSplash(false), 1000);
+        }}
+        className="w-[260px] md:w-[420px] lg:w-[520px] h-auto rounded-xl shadow-lg"
+        initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.8 }}
       />
 
-      {/* Overlay message for sound */}
-      <div className="absolute bottom-10 text-center text-white">
-        <p className="text-sm md:text-base opacity-80">🔊 Tap anywhere to enable sound</p>
-      </div>
-
-      {/* Click listener */}
-      <div
-        className="absolute inset-0"
-        onClick={() => {
-          const video = document.getElementById("phoolLogoVideo");
-          if (video) {
-            video.muted = false;
-            video.currentTime = 0; // restart video
-            video.play();
-          }
-        }}
-      />
+      {/* Unmute Button */}
+      {muted && (
+        <button
+          onClick={() => {
+            videoRef.current.muted = false;
+            setMuted(false);
+          }}
+          className="mt-6 bg-white text-pink-700 px-6 py-2 rounded-full font-semibold shadow-md hover:bg-pink-100 transition"
+        >
+          🔊 Tap to Unmute
+        </button>
+      )}
     </motion.div>
   )}
 </AnimatePresence>
+
 
       {/* Header */}
       <header className="bg-white/80 backdrop-blur sticky top-0 z-40 shadow-sm">

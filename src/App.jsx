@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function App() {
-  // --- Splash screen with unmute option ---
+// --- Splash screen with unmute option ---
 const [showSplash, setShowSplash] = useState(true);
 const [muted, setMuted] = useState(true);
 const videoRef = useRef(null);
 
 useEffect(() => {
-  const t = setTimeout(() => setShowSplash(false), 10000); // 10 seconds total
+  const t = setTimeout(() => setShowSplash(false), 10000); // stay for 10s total
   return () => clearTimeout(t);
 }, []);
+
+
 
   // --- 20 images exactly as you listed ---
   const collections = [
@@ -92,8 +94,9 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-      {/* Splash screen overlay (put this right after the main opening <div>) */}
-{/* --- SPLASH SCREEN WITH SOUND CONTROL --- */}
+      
+
+        {/* --- SPLASH SCREEN WITH SOUND CONTROL --- */}
 <AnimatePresence>
   {showSplash && (
     <motion.div
@@ -135,7 +138,6 @@ useEffect(() => {
     </motion.div>
   )}
 </AnimatePresence>
-
 
       {/* Header */}
       <header className="bg-white/80 backdrop-blur sticky top-0 z-40 shadow-sm">

@@ -104,36 +104,27 @@ useEffect(() => {
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.2 }}
+      transition={{ duration: 0.6 }}
     >
-      <motion.video
-        ref={videoRef}
-        src="/phool-images/logo.mp4"
-        poster="/phool-images/logo.png"
-        autoPlay
-        muted={muted}
-        playsInline
-        onEnded={() => {
-          // Wait 1s before fade-out
-          setTimeout(() => setShowSplash(false), 1000);
-        }}
-        className="w-[260px] md:w-[420px] lg:w-[520px] h-auto rounded-xl shadow-lg"
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      />
-
-      {/* Unmute Button */}
-      {muted && (
+      {!started ? (
         <button
           onClick={() => {
-            videoRef.current.muted = false;
-            setMuted(false);
+            setStarted(true);
+            videoRef.current.play();
           }}
-          className="mt-6 bg-white text-pink-700 px-6 py-2 rounded-full font-semibold shadow-md hover:bg-pink-100 transition"
+          className="bg-white text-pink-700 font-semibold px-6 py-3 rounded-lg shadow-lg"
         >
-          🔊 Tap to Unmute
+          Tap to Start
         </button>
+      ) : (
+        <motion.video
+          ref={videoRef}
+          src="/phool-images/logo.mp4"
+          playsInline
+          controls={false}
+          onEnded={() => setShowSplash(false)}
+          className="w-[300px] md:w-[500px] h-auto rounded-xl shadow-xl"
+        />
       )}
     </motion.div>
   )}

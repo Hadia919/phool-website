@@ -7,6 +7,7 @@ export default function App() {
 const [showSplash, setShowSplash] = useState(true);
 const [muted, setMuted] = useState(true);
 const videoRef = useRef(null);
+const [started, setStarted]=useState(false);
 
 useEffect(() => {
   const t = setTimeout(() => setShowSplash(false), 10000); // stay for 10s total
@@ -95,8 +96,7 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
       
-
-        {/* --- SPLASH SCREEN WITH SOUND CONTROL --- */}
+{/* --- SPLASH SCREEN (Auto-Play Logo, No Button) --- */}
 <AnimatePresence>
   {showSplash && (
     <motion.div
@@ -106,26 +106,16 @@ useEffect(() => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
-      {!started ? (
-        <button
-          onClick={() => {
-            setStarted(true);
-            videoRef.current.play();
-          }}
-          className="bg-white text-pink-700 font-semibold px-6 py-3 rounded-lg shadow-lg"
-        >
-          Tap to Start
-        </button>
-      ) : (
-        <motion.video
-          ref={videoRef}
-          src="/phool-images/logo.mp4"
-          playsInline
-          controls={false}
-          onEnded={() => setShowSplash(false)}
-          className="w-[300px] md:w-[500px] h-auto rounded-xl shadow-xl"
-        />
-      )}
+      <motion.video
+        ref={videoRef}
+        src="/phool-images/logo.mp4"
+        autoPlay
+        muted
+        playsInline
+        controls={false}
+        onEnded={() => setShowSplash(false)}
+        className="w-[300px] md:w-[500px] h-auto rounded-xl shadow-xl"
+      />
     </motion.div>
   )}
 </AnimatePresence>

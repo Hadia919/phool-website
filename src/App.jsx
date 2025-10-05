@@ -93,24 +93,42 @@ useEffect(() => {
   {showSplash && (
     <motion.div
       className="fixed inset-0 flex items-center justify-center bg-pink-700 z-50"
-    
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
-      onClick={() => setShowSplash(false)} // click to skip if user wants
     >
+      {/* The video */}
       <motion.video
+        id="phoolLogoVideo"
         src="/phool-images/logo.mp4"
-        poster="/phool-images/logo.png"   // optional fallback image (see note)
+        poster="/phool-images/logo.png"
         autoPlay
         muted
         playsInline
         onEnded={() => setShowSplash(false)}
-        className="w-[220] md:w-[400px] lg:w-[500px] h-auto"
+        className="w-[240px] md:w-[420px] lg:w-[500px] h-auto rounded-xl shadow-2xl"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.8 }}
+      />
+
+      {/* Overlay message for sound */}
+      <div className="absolute bottom-10 text-center text-white">
+        <p className="text-sm md:text-base opacity-80">🔊 Tap anywhere to enable sound</p>
+      </div>
+
+      {/* Click listener */}
+      <div
+        className="absolute inset-0"
+        onClick={() => {
+          const video = document.getElementById("phoolLogoVideo");
+          if (video) {
+            video.muted = false;
+            video.currentTime = 0; // restart video
+            video.play();
+          }
+        }}
       />
     </motion.div>
   )}
@@ -179,7 +197,7 @@ useEffect(() => {
                       onClick={(e) => { e.stopPropagation(); orderNow(p); }}
                       className="mt-2 px-3 py-1 text-sm bg-pink-600 text-white rounded-md"
                     >
-                      Order Now
+                      Order Nows
                     </button>
                   </div>
                 </div>

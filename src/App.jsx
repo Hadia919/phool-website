@@ -3,17 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function App() {
-// --- Splash screen with unmute option ---
+// --- Splash screen with mute option ---
 const [showSplash, setShowSplash] = useState(true);
-const [muted, setMuted] = useState(true);
 const videoRef = useRef(null);
-const [started, setStarted]=useState(false);
 
 useEffect(() => {
   const t = setTimeout(() => setShowSplash(false), 10000); // stay for 10s total
   return () => clearTimeout(t);
 }, []);
-
 
 
   // --- 20 images exactly as you listed ---

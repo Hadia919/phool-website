@@ -23,11 +23,18 @@
   "engines": {
     "node": "22.x"
   },
-  
-  "type": "module"
-
-
+  "type": "module",
+  "description": "This is a ready-to-run Vite + React starter for the Phool clothing brand website.\r It includes Tailwind CSS + Framer Motion examples.",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hk19-maker/phool-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hk19-maker/phool-website/issues"
+  },
+  "homepage": "https://github.com/Hk19-maker/phool-website#readme"
 }
-
-
-  
